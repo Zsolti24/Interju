@@ -37,6 +37,13 @@ export class OrdersService {
     });
   }
 
+  findAllForUser(userId: number) {
+    return this.prisma.order.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   async findOne(userId: number, id: number) {
     const order = await this.prisma.order.findUnique({
       where: { id },

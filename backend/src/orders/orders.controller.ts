@@ -27,6 +27,12 @@ export class OrdersController {
     return this.ordersService.create(userId, dto);
   }
 
+  @Get()
+  findAll(@Req() req: Request) {
+    const userId = (req.user as { id: number }).id;
+    return this.ordersService.findAllForUser(userId);
+  }
+
   @Get(':id')
   findOne(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
     const userId = (req.user as { id: number }).id;
