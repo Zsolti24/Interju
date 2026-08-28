@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { useRequireAuth } from '@/lib/useRequireAuth';
 
 type MenuItem = {
   id: number;
@@ -20,6 +21,7 @@ export type Restaurant = {
 };
 
 export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
+  useRequireAuth();
   const router = useRouter();
   const [cart, setCart] = useState<Record<number, number>>({});
   const [error, setError] = useState('');

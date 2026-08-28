@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { useRequireAuth } from '@/lib/useRequireAuth';
 
 type OrderItem = {
   id: number;
@@ -20,6 +21,7 @@ type Order = {
 };
 
 export default function OrderPage() {
+  useRequireAuth();
   const params = useParams<{ id: string }>();
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState('');

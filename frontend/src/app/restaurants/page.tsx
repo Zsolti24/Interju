@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { useRequireAuth } from '@/lib/useRequireAuth';
 
 type Restaurant = {
   id: number;
@@ -16,6 +17,7 @@ type Order = {
 };
 
 export default function RestaurantsPage() {
+  useRequireAuth();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState('');
