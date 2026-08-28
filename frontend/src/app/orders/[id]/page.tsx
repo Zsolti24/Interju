@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useRequireAuth } from '@/lib/useRequireAuth';
+import { LogoutButton } from '@/components/LogoutButton';
 
 type OrderItem = {
   id: number;
@@ -34,25 +35,28 @@ export default function OrderPage() {
   }, [params.id]);
 
   const backButton = (
-    <Link href="/restaurants" className="border border-gray-500 px-2 py-1 inline-block">
+    <Link
+      href="/restaurants"
+      className="inline-block rounded border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100"
+    >
       Back
     </Link>
   );
 
   if (error) {
     return (
-      <main className="p-4">
+      <main className="mx-auto max-w-2xl p-6">
         {backButton}
-        <p>{error}</p>
+        <p className="mt-4 text-sm text-red-600">{error}</p>
       </main>
     );
   }
 
   if (!order) {
     return (
-      <main className="p-4">
+      <main className="mx-auto max-w-2xl p-6">
         {backButton}
-        <p>Loading...</p>
+        <p className="mt-4 text-sm text-gray-600">Loading...</p>
       </main>
     );
   }
@@ -63,18 +67,28 @@ export default function OrderPage() {
   );
 
   return (
-    <main className="p-4">
+    <main className="mx-auto max-w-2xl p-6">
       {backButton}
-      <div className="py-3">Order #{order.id}</div>
-      <p>Status: {order.status}</p>
-      <ul className="mt-4">
+      <h1 className="mt-4 text-xl font-semibold">Order #{order.id}</h1>
+      <p className="text-sm text-gray-600">Status: {order.status}</p>
+
+      <ul className="mt-4 flex flex-col gap-2">
         {order.items.map((item) => (
-          <li key={item.id} className="mb-2">
-            {item.menuItem.name} x {item.quantity} - {item.unitPrice}
+          <li
+            key={item.id}
+            className="flex items-center justify-between rounded border border-gray-200 bg-white p-3"
+          >
+            <span>
+              {item.menuItem.name} x {item.quantity}
+            </span>
+            <span className="text-gray-600">{item.unitPrice}</span>
           </li>
         ))}
       </ul>
-      <p>Total: {total}</p>
+
+      <p className="mt-4 font-medium">Total: {total}</p>
+
+      <LogoutButton />
     </main>
   );
 }

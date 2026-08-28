@@ -26,48 +26,60 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="p-4">
-      <div className="py-3">Register</div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name</label>
+    <main className="mx-auto max-w-sm p-6">
+      <h1 className="mb-6 text-xl font-semibold">Register</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="name" className="text-sm text-gray-600">
+            Name
+          </label>
           <input
             id="name"
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
-            className="border border-gray-500 px-2 py-1 ml-2 mb-2"
+            className="rounded border border-gray-300 px-3 py-2 focus:border-gray-500 focus:outline-none"
           />
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="email" className="text-sm text-gray-600">
+            Email
+          </label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
-            className="border border-gray-500 px-2 py-1 ml-2 mb-2"
+            className="rounded border border-gray-300 px-3 py-2 focus:border-gray-500 focus:outline-none"
           />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="password" className="text-sm text-gray-600">
+            Password
+          </label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
-            className="border border-gray-500 ml-2 mb-2 px-2 py-1"
+            className="rounded border border-gray-300 px-3 py-2 focus:border-gray-500 focus:outline-none"
           />
         </div>
-        {error && <p>{error}</p>}
-        <button type="submit" className="border border-gray-500 px-2 py-1">
+        {error && <p className="text-sm text-red-600">{error}</p>}
+        <button
+          type="submit"
+          className="cursor-pointer rounded bg-gray-900 px-3 py-2 text-white hover:bg-gray-700"
+        >
           Register
         </button>
       </form>
-      <Link href="/login" className="mt-4 inline-block border border-gray-500 px-2 py-1">
+      <Link
+        href="/login"
+        className="mt-4 inline-block rounded border border-gray-300 px-3 py-2 text-sm hover:bg-gray-100"
+      >
         Login page
       </Link>
     </main>
