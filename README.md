@@ -52,3 +52,21 @@ npm run dev
 ```
 
 Runs at `http://localhost:3000`.
+
+## Running with Docker
+
+Each app has its own Dockerfile.
+
+```
+cd backend
+docker build -t food-ordering-backend .
+docker run -p 3001:3001 --env-file .env food-ordering-backend
+```
+
+```
+cd frontend
+docker build -t food-ordering-frontend --build-arg NEXT_PUBLIC_API_URL=http://localhost:3001 .
+docker run -p 3000:3000 food-ordering-frontend
+```
+
+The backend still needs a reachable PostgreSQL instance (`docker compose up -d db`) and a migrated/seeded database.
