@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { io } from 'socket.io-client';
 import { api } from '@/lib/api';
 import { useRequireAuth } from '@/lib/useRequireAuth';
 import { LogoutButton } from '@/components/LogoutButton';
@@ -32,6 +33,19 @@ export default function OrderPage() {
       .get<Order>(`/orders/${params.id}`)
       .then((response) => setOrder(response.data))
       .catch(() => setError('Order not found'));
+
+    const socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+    socket.emit('joinOrder', {
+      orderId: Number(params.id),
+      token: localStorage.getItem('token'),
+    });
+    socket.on('orderStatusChanged', (data: { status: string }) => {
+      setOrder((prev) => (prev ? { ...prev, status: data.status } : prev));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [params.id]);
 
   const backButton = (

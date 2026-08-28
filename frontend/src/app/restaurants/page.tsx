@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { io } from 'socket.io-client';
 import { api } from '@/lib/api';
 import { useRequireAuth } from '@/lib/useRequireAuth';
 import { LogoutButton } from '@/components/LogoutButton';
@@ -33,6 +34,20 @@ export default function RestaurantsPage() {
       .get<Order[]>('/orders')
       .then((response) => setOrders(response.data))
       .catch(() => {});
+
+    const socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+    socket.emit('joinUser', { token: localStorage.getItem('token') });
+    socket.on('orderStatusChanged', (data: { orderId: number; status: string }) => {
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === data.orderId ? { ...order, status: data.status } : order,
+        ),
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (

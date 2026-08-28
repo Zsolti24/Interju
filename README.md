@@ -70,3 +70,16 @@ docker run -p 3000:3000 food-ordering-frontend
 ```
 
 The backend still needs a reachable PostgreSQL instance (`docker compose up -d db`) and a migrated/seeded database.
+
+## Bonus: real-time order status
+
+The `/orders/[id]` page and the order list on `/restaurants` pick up status changes instantly over a WebSocket, no refresh needed - including when you change the status by hand, directly in the database.
+
+To edit an order's status manually and watch it update live:
+
+```
+cd backend
+npx prisma studio
+```
+
+This opens a browser UI at `http://localhost:5555` where you can open the `Order` table and change a row's `status` directly.
