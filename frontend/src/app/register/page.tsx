@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { api } from '@/lib/api';
 
 export default function RegisterPage() {
@@ -66,6 +67,9 @@ export default function RegisterPage() {
           Register
         </button>
       </form>
+      <Link href="/login" className="mt-4 inline-block border border-gray-500 px-2 py-1">
+        Login page
+      </Link>
     </main>
   );
 }
